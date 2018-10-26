@@ -1,7 +1,10 @@
 package NettyStudy;
 
-import NettyStudy.Client.EchoServer;
-import NettyStudy.Server.EchoClient;
+import NettyStudy.Server.EchoServer;
+import NettyStudy.Client.EchoClient;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+import io.netty.util.CharsetUtil;
 import org.junit.Test;
 
 /**
@@ -27,5 +30,14 @@ public class AppTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void releaseTest(){
+        ByteBuf buf = Unpooled.copiedBuffer("aaa".getBytes(CharsetUtil.UTF_8));
+        System.out.println(buf.toString(CharsetUtil.UTF_8));
+        System.out.println(buf.release());
+        System.out.println(buf.refCnt());
+        System.out.println(buf.toString(CharsetUtil.UTF_8));
     }
 }
