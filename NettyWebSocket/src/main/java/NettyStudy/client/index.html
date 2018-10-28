@@ -1,0 +1,36 @@
+<!--    
+    description:        
+    author:  JiangL    
+    company:            
+    date:    2018/10/29   
+    version: v1.0       
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>WebSocketClient</title>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+<div id="msgBox"></div>
+
+<script>
+    var $msgBox = $('#msgBox');
+    var ws = new WebSocket("ws://localhost:8080/ws");
+    ws.onopen = function (evt) {
+        $msgBox.html($msgBox.html() + 'Connection open ...</br>');
+        ws.send('Hello WebSockets!');
+    };
+
+    ws.onmessage = function (evt) {
+        $msgBox.html($msgBox.html() + 'Received Message: ' + evt.data + '</br>');
+        //ws.close();
+    };
+
+    ws.onclose = function (evt) {
+        console.log('Connection closed.');
+    };
+</script>
+</body>
+</html>
