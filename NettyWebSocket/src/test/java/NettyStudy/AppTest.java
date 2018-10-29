@@ -19,7 +19,7 @@ public class AppTest {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
-                endpoint.destory();
+                endpoint.destroy();
             }
         });
         future.channel().closeFuture().syncUninterruptibly();

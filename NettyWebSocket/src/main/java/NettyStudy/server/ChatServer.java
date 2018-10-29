@@ -42,7 +42,7 @@ public class ChatServer {
         return new ChatServerInitializer(group);
     }
 
-    public void destory() {
+    public void destroy() {
         if (channel != null) {
             channel.close();
         }

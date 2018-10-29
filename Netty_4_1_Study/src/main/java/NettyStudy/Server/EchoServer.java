@@ -43,7 +43,7 @@ public class EchoServer {
 
     private class EchoServerHandler extends ChannelInboundHandlerAdapter {
         @Override
-        public void channelRead(ChannelHandlerContext ctx, Object msg) {
+        public void channelRead(final ChannelHandlerContext ctx, Object msg) {
             ByteBuf buf = (ByteBuf) msg;
             System.out.println("Echo服务器接收到消息: " + buf.toString(CharsetUtil.UTF_8));
             ctx.write(Unpooled.copiedBuffer("消息已送达！".getBytes(CharsetUtil.UTF_8)));
