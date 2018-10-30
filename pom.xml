@@ -11,6 +11,7 @@
     <modules>
         <module>Netty_4_1_Study</module>
         <module>NettyWebSocket</module>
+        <module>NettyUDP</module>
     </modules>
 
 
