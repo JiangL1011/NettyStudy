@@ -1,6 +1,6 @@
 package NettyStudy;
 
-import NettyStudy.Server.EchoServer;
+import NettyStudy.server.EchoServer;
 import NettyStudy.Client.EchoClient;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;

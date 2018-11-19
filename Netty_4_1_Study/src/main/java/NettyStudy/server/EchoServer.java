@@ -1,4 +1,4 @@
-package NettyStudy.Server;
+package NettyStudy.server;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.ByteBuf;

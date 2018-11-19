@@ -12,7 +12,18 @@
         <module>Netty_4_1_Study</module>
         <module>NettyWebSocket</module>
         <module>NettyUDP</module>
+        <module>Netty_4_1_Study2</module>
     </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>4.1.30.Final</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 
 </project>
