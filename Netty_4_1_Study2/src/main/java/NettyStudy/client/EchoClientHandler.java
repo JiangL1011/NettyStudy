@@ -14,10 +14,10 @@ import io.netty.util.CharsetUtil;
  * version: v1.0
  */
 public class EchoClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
-    /*@Override
+    @Override
     public void channelActive(ChannelHandlerContext ctx) {
         ctx.writeAndFlush(Unpooled.copiedBuffer((ctx.channel().id() + " has joined!").getBytes(CharsetUtil.UTF_8)));
-    }*/
+    }
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) {

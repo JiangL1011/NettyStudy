@@ -3,10 +3,10 @@ package NettyStudy.server;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
-import io.netty.channel.group.ChannelGroup;
-import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.CharsetUtil;
-import io.netty.util.concurrent.GlobalEventExecutor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * description:
@@ -17,7 +17,8 @@ import io.netty.util.concurrent.GlobalEventExecutor;
  */
 @ChannelHandler.Sharable
 public class EchoServerHandler extends ChannelInboundHandlerAdapter {
-    public static ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+    //    public static ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+    private static List<ChannelHandlerContext> contexts = new ArrayList<>();
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
@@ -27,9 +28,9 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
             ctx.writeAndFlush("Exit successfully!".getBytes(CharsetUtil.UTF_8))
                     .addListener(ChannelFutureListener.CLOSE);
         } else {
-            for (Channel channel : channels) {
-                if (channel != ctx.channel()) {
-                    channel.writeAndFlush(received);
+            for (ChannelHandlerContext context : contexts) {
+                if (context != ctx) {
+                    context.writeAndFlush(received);
                     received.retain();
                 }
             }
@@ -46,24 +47,24 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
     public void handlerAdded(ChannelHandlerContext ctx) {
         System.out.println("进入 handlerAdded");
         Channel inChannel = ctx.channel();
-        for (Channel channel : channels) {
-            channel.writeAndFlush((inChannel.id() + " has joined!").getBytes(CharsetUtil.UTF_8));
+        for (ChannelHandlerContext context : contexts) {
+            context.writeAndFlush((inChannel.id() + " has joined!").getBytes(CharsetUtil.UTF_8));
         }
-        channels.add(inChannel);
-        System.err.println(inChannel.id() + " has joined! " + channels.size() + " connections now!");
+        contexts.add(ctx);
+        System.err.println(inChannel.id() + " has joined! " + contexts.size() + " connections now!");
     }
 
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) {
         System.out.println("进入 handlerRemoved");
         Channel outChannel = ctx.channel();
-        for (Channel channel : channels) {
-            if (channel != outChannel) {
-                channel.writeAndFlush((outChannel.id() + "has exited!").getBytes(CharsetUtil.UTF_8));
+        for (ChannelHandlerContext context : contexts) {
+            if (context != ctx) {
+                context.writeAndFlush((outChannel.id() + "has exited!").getBytes(CharsetUtil.UTF_8));
             }
         }
-        channels.remove(outChannel);
-        System.err.println(outChannel.id() + " has exited! " + channels.size() + " connections now!");
+        contexts.remove(ctx);
+        System.err.println(outChannel.id() + " has exited! " + contexts.size() + " connections now!");
     }
 
     @Override
