@@ -28,6 +28,7 @@ public class EchoServer {
                         @Override
                         protected void initChannel(SocketChannel ch) {
                             ch.pipeline().addLast(echoServerHandler);
+                            ch.pipeline().addLast(new EchoOutBoundExceptionHandler());
                         }
                     });
             ChannelFuture future = bootstrap.bind().sync();
