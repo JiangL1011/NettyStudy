@@ -12,6 +12,7 @@ import io.netty.channel.*;
 public class EchoOutBoundExceptionHandler extends ChannelOutboundHandlerAdapter {
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) {
+        System.out.println("进入 ChannelOutboundHandlerAdapter write方法");
         promise.addListener(new ChannelFutureListener() {
             @Override
             public void operationComplete(ChannelFuture future) {
