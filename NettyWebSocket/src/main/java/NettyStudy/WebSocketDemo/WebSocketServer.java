@@ -26,24 +26,24 @@ public class WebSocketServer {
             b.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
                     .childHandler(new ChannelInitializer<SocketChannel>() {
-
                         @Override
                         protected void initChannel(SocketChannel ch) {
                             ChannelPipeline pipeline = ch.pipeline();
+                            /*
+                             * HttpServerCodec：将请求和应答消息解码为HTTP消息
+                             * HttpObjectAggregator：将HTTP消息的多个部分合成一条完整的HTTP消息
+                             * ChunkedWriteHandler：向客户端发送HTML5文件
+                             */
                             pipeline.addLast("http-codec", new HttpServerCodec());
                             pipeline.addLast("aggregator", new HttpObjectAggregator(65536));
-                            ch.pipeline().addLast("http-chunked", new ChunkedWriteHandler());
+                            pipeline.addLast("http-chunked", new ChunkedWriteHandler());
                             pipeline.addLast("handler", new WebSocketServerHandler());
                         }
                     });
 
             Channel ch = b.bind(port).sync().channel();
-            System.out.println("Web socket server started at port " + port
-                    + '.');
-            System.out
-                    .println("Open your browser and navigate to http://localhost:"
-                            + port + '/');
-
+            System.out.println("Web socket server started at port " + port + '.');
+            System.out.println("Open your browser and navigate to http://localhost:" + port + '/');
             ch.closeFuture().sync();
         } finally {
             bossGroup.shutdownGracefully();
