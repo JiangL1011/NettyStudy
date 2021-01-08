@@ -13,6 +13,7 @@
         <module>NettyWebSocket</module>
         <module>NettyUDP</module>
         <module>Netty_4_1_Study2</module>
+        <module>NettyRestudy</module>
     </modules>
 
     <dependencyManagement>
